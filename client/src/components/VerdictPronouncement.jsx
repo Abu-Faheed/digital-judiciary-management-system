@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
 import {
   Gavel,
   Lock,
@@ -117,9 +118,14 @@ export default function VerdictPronouncement({
 
     try {
       const effectiveCID = verdictCID.trim() || `QmPakistanFinalVerdictDocket${selectedCaseId}_${Date.now()}`;
-      const effectiveHash = verdictHash.trim() || "0x0000000000000000000000000000000000000000000000000000000000000000";
+      let effectiveHash = verdictHash.trim();
+      if (!effectiveHash || effectiveHash === "0x0000000000000000000000000000000000000000000000000000000000000000") {
+        // Fallback: Compute standard SHA-256 digest from the judgment text summary
+        effectiveHash = ethers.sha256(ethers.toUtf8Bytes(summary));
+      }
 
-      const tx = await contract.pronounceVerdict(
+      // Execute on-chain pronouncementOfVerdict(caseId, verdictCID, verdictHash, summary)
+      const tx = await contract.pronouncementOfVerdict(
         selectedCaseId,
         effectiveCID,
         effectiveHash,

@@ -1,25 +1,42 @@
-# Compiler files
-cache/
-out/
-
-# Commonly ignored directories
-.logs/
-.ignore/
-
-# Ignores development broadcast logs
-!/broadcast
-/broadcast/*/31337/
-/broadcast/**/dry-run/
-
-# Docs
-docs/
-
-# Dotenv file
-.env
-.env.*
-!.env.example
-
 # Node dependencies
 node_modules/
 client/node_modules/
 server/node_modules/
+
+# Production build outputs
+dist/
+client/dist/
+
+# Solidity & Foundry compiler outputs
+cache/
+out/
+contracts/cache/
+contracts/out/
+
+# Development blockchain broadcast logs
+broadcast/
+contracts/broadcast/*/31337/
+contracts/broadcast/**/dry-run/
+broadcast/*/31337/
+broadcast/**/dry-run/
+
+# Environment files
+.env
+.env.*
+server/.env
+server/.env.*
+!.env.example
+!server/.env.example
+
+# Local temporary IPFS uploads
+server/uploads/ipfs/*
+!server/uploads/ipfs/.gitkeep
+
+# Logs & OS metadata
+*.log
+*.zip
+.logs/
+.ignore/
+.DS_Store
+Thumbs.db
+

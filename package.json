@@ -1,0 +1,27 @@
+{
+  "name": "bdms-root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Blockchain-Based Digital Judiciary Management System (BDMS) - National Court Case Ledger",
+  "author": "Islamia College University Peshawar (ICP) - BS Software Engineering FYP",
+  "license": "MIT",
+  "scripts": {
+    "start": "./start.sh",
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build:client": "npm --prefix client run build",
+    "test:contracts": "forge test -vv"
+  },
+  "keywords": [
+    "blockchain",
+    "judiciary",
+    "pakistan-courts",
+    "smart-contracts",
+    "solidity",
+    "ipfs",
+    "react",
+    "express"
+  ]
+}
+

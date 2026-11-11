@@ -184,6 +184,24 @@ export default function App() {
   };
 
   /**
+   * Helper to retrieve active contract address (synced with backend or static fallback).
+   */
+  const getActiveContractAddress = async () => {
+    try {
+      const res = await fetch("/api/health");
+      if (res.ok) {
+        const data = await res.json();
+        if (data.contractAddress && ethers.isAddress(data.contractAddress)) {
+          return data.contractAddress;
+        }
+      }
+    } catch (e) {
+      // Fallback
+    }
+    return JUDICIARY_CONTRACT_ADDRESS;
+  };
+
+  /**
    * Initializes or switches the persona signer.
    */
   const setupWeb3Signer = async (roleKey = "CLERK") => {
@@ -194,11 +212,12 @@ export default function App() {
       // Verify connection to RPC
       await jsonRpcProvider.getBlockNumber();
 
+      const contractAddress = await getActiveContractAddress();
       const persona = DEMO_ACCOUNTS[roleKey] || DEMO_ACCOUNTS.CLERK;
       const roleSigner = new ethers.Wallet(persona.privateKey, jsonRpcProvider);
 
       const judiciaryInstance = new ethers.Contract(
-        JUDICIARY_CONTRACT_ADDRESS,
+        contractAddress,
         JUDICIARY_CORE_ABI,
         roleSigner
       );
@@ -260,8 +279,9 @@ export default function App() {
         const browserSigner = await browserProvider.getSigner();
         const userAddress = await browserSigner.getAddress();
 
+        const contractAddress = await getActiveContractAddress();
         const judiciaryInstance = new ethers.Contract(
-          JUDICIARY_CONTRACT_ADDRESS,
+          contractAddress,
           JUDICIARY_CORE_ABI,
           browserSigner
         );

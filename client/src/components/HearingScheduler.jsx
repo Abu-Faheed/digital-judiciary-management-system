@@ -72,7 +72,8 @@ export default function HearingScheduler({
       const unixTimestamp = Math.floor(new Date(hearingDate).getTime() / 1000);
       const effectiveCID = transcriptCID.trim() || `QmPakistanHearingNotesDocket${selectedCaseId}_${Date.now()}`;
 
-      const tx = await contract.scheduleHearing(
+      // Call on-chain method recordCourtHearing(caseId, hearingDate, courtNotesCID)
+      const tx = await contract.recordCourtHearing(
         selectedCaseId,
         unixTimestamp,
         effectiveCID
